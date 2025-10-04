@@ -93,6 +93,7 @@ class RemoteTerminalBackend extends BaseTerminalBackend implements ITerminalBack
 			const pty = this._ptys.get(e.id);
 			if (pty) {
 				pty.handleExit(e.event);
+				pty.dispose();
 				this._ptys.delete(e.id);
 			}
 		});
@@ -286,6 +287,7 @@ class RemoteTerminalBackend extends BaseTerminalBackend implements ITerminalBack
 			return undefined;
 		}
 		const resolverResult = await this._remoteAuthorityResolverService.resolveAuthority(connection.remoteAuthority);
+		// eslint-disable-next-line local/code-no-any-casts
 		return resolverResult.options?.extensionHostEnv as any;
 	}
 
